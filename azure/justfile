@@ -1,0 +1,19 @@
+# Subproject justfile for `azure` — inherit the monorepo parent justfile.
+# Add project-specific overrides or extra recipes below the `include` line.
+
+
+include "../justfile"
+
+# Project-specific overrides / examples for `azure`
+# These recipes are available in addition to the parent recipes.
+
+# Run the project's test suite using `uv` from the project root.
+test:
+	uv test --path .
+
+# Simple CI flow example: install deps, lint, then test.
+ci:
+	uv install
+	uv lint
+	uv test
+
