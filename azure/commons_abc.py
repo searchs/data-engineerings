@@ -5,10 +5,9 @@ Handles schema inference and explicit schemas with configurable retry logic
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 import json
 import logging
-from pathlib import Path
 import time
 
 import pandas as pd
@@ -132,7 +131,6 @@ class JSONFileReader(DataReader):
         with open(source, "r") as f:
             data = json.load(f)
 
-        # Handle both single object and array of objects
         if isinstance(data, dict):
             data = [data]
 
@@ -191,7 +189,7 @@ class RetryHandler:
                 else:
                     logger.error(f"All {self.config.max_retries + 1} attempts failed")
 
-        raise last_exception
+        raise last_exception or RuntimeError("Operation failed without an exception")
 
 
 # ============================================================================
@@ -246,12 +244,10 @@ class DataProcessor:
         """
         logger.info("Starting data processing")
 
-        # Read data with retry
         df = self.retry_handler.execute_with_retry(self.reader.read, source)
 
         logger.info(f"Read {len(df)} records")
 
-        # Convert to Parquet with retry
         self.retry_handler.execute_with_retry(self._convert_to_parquet, df, output_path)
 
         logger.info("Processing completed successfully")
@@ -302,15 +298,12 @@ class DataProcessorFactory:
 # ============================================================================
 
 if __name__ == "__main__":
-    # Example 1: Process JSON file with inferred schema
     print("\n=== Example 1: Inferred Schema ===")
     config = ProcessorConfig(max_retries=3, retry_delay_seconds=1.0)
     processor = DataProcessorFactory.create_with_inferred_schema(
         reader=JSONFileReader(), config=config
     )
-    # processor.process("input.json", "output.parquet")
 
-    # Example 2: Process with explicit schema dictionary
     print("\n=== Example 2: Explicit Schema from Dict ===")
     schema_dict = {
         "id": "int64",
@@ -321,22 +314,17 @@ if __name__ == "__main__":
     processor = DataProcessorFactory.create_with_dict_schema(
         reader=JSONFileReader(), schema_dict=schema_dict, config=config
     )
-    # processor.process("input.json", "output.parquet")
 
-    # Example 3: Process JSON string with custom retry config
     print("\n=== Example 3: JSON String with Custom Retry ===")
     custom_config = ProcessorConfig(max_retries=5, retry_delay_seconds=2.0)
     processor = DataProcessorFactory.create_with_inferred_schema(
         reader=JSONStringReader(), config=custom_config
     )
     json_data = '[{"id": 1, "name": "test", "value": 42.5}]'
-    # processor.process(json_data, "output.parquet")
 
-    # Example 4: Process JSONL file
     print("\n=== Example 4: JSONL File ===")
     processor = DataProcessorFactory.create_with_inferred_schema(
         reader=JSONLinesReader()
     )
-    # processor.process("input.jsonl", "output.parquet")
 
     print("\nAll examples configured successfully!")

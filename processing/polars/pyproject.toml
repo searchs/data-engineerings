@@ -1,0 +1,8 @@
+[project]
+name = "polars-lab"
+version = "0.1.0"
+description = "Polars dataframe processing examples"
+requires-python = ">=3.12"
+dependencies = [
+    "polars>=1.32",
+]

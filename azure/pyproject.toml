@@ -1,7 +1,10 @@
 [project]
 name = "azure"
 version = "0.1.0"
-description = "Add your description here"
+description = "Azure-focused data-engineering experiments and JSON-to-Parquet processing examples"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pandas>=2.2",
+    "pyarrow>=18",
+]
