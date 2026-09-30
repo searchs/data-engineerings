@@ -1,58 +1,44 @@
-# Data Engineering
+# Data Engineering Labs
 
-Data engineering is the process of building and maintaining the infrastructure that supports data processing and analysis. This includes tasks such as data collection, data cleaning, data transformation, data storage, and data visualization. Data engineers use a variety of tools and technologies to perform these tasks, including programming languages such as Python and SQL, data processing frameworks such as Apache Spark and Hadoop, and data visualization tools such as Tableau and Power BI.
+A canonical repository for practical data-engineering experiments, reusable patterns and case studies across cloud platforms, streaming, distributed processing, orchestration and data-quality workflows.
 
-This repository contains a collection of data engineering projects and resources. The projects are organized by topic, and each project includes a README file with instructions on how to run the code. The resources include articles, tutorials, and other materials that can help you learn more about data engineering.
+This repository is being consolidated from a number of older standalone projects so that related work can share one tooling baseline, one CI pipeline and one discoverable structure.
 
-I hope you find this repository helpful. If you have any questions or feedback, please feel free to contact me.
+## Target structure
 
-## TODO: Faster Pipelines and Solutions
-
-Rust programming language is a good candidate for building fast and reliable data pipelines.  UV, RV and a host of other tools are built with Rust and the effect is visible in their performance. I hope to learn Rust and build a few pipelines with it or include some Rust tools in my existing pipelines.
-
-Godspeed to me!
-
-## Using `just` + `uv` (Monorepo)
-
-- **Purpose**: The repository root contains a parent `justfile` (`./justfile`) with common Python workflows implemented using the `uv` tool. Subprojects (for example `azure/`) should inherit these recipes to keep behavior consistent across the monorepo.
-- **Reference doc**: More details and examples are available in `JUST_UV.md`.
-- **Install prerequisites**: Make sure `just` and `uv` are available on your PATH. For macOS you can install `just` via Homebrew and `uv` via `pipx` or your preferred method:
-
-```bash
-brew install just
-pipx install uv   # or: pip install --user uv, or your preferred installer
+```text
+cloud/
+  aws/
+  azure/
+  gcp/
+streaming/
+  kafka/
+processing/
+  spark/
+    python/
+    java/
+    scala/
+  polars/
+pipelines/
+orchestration/
+databases/
+ingestion/
+analytics/
+case-studies/
+docs/
+tests/
 ```
 
-- **List available recipes**:
+## Tooling
 
-```bash
-just --list
-```
+The repository uses `uv` for Python environments and dependency management and `just` for repeatable development commands. Subprojects should inherit the root conventions where practical rather than creating unrelated local workflows.
 
-- **Run a common recipe from a subproject** (example: `azure`):
+See `JUST_UV.md` for the current command workflow and `MIGRATION_PLAN.md` for the consolidation roadmap.
 
-```bash
-cd azure
-just test
-```
+## Principles
 
-- **How to inherit the parent justfile**: In each subproject create a `justfile` containing:
-
-```makefile
-# Data Engineering
-
-Data engineering is the process of building and maintaining the infrastructure that supports data processing and analysis. This includes tasks such as data collection, data cleaning, data transformation, data storage, and data visualization. Data engineers use a variety of tools and technologies to perform these tasks, including programming languages such as Python and SQL, data processing frameworks such as Apache Spark and Hadoop, and data visualization tools such as Tableau and Power BI.
-
-This repository contains a collection of data engineering projects and resources. The projects are organized by topic, and each project includes a README file with instructions on how to run the code. The resources include articles, tutorials, and other materials that can help you learn more about data engineering.
-
-I hope you find this repository helpful. If you have any questions or feedback, please feel free to contact me.
-
-## TODO: Faster Pipelines and Solutions
-
-Rust programming language is a good candidate for building fast and reliable data pipelines. UV, RV and a host of other tools are built with Rust and the effect is visible in their performance. I hope to learn Rust and build a few pipelines with it or include some Rust tools in my existing pipelines.
-
-Godspeed to me!
-
-## Using `just` + `uv`
-
-Short guide and examples for using the monorepo `justfile` with `uv` are available in `JUST_UV.md`.
+- Preserve useful authored implementations and case studies.
+- Keep transparent attribution for course-derived projects.
+- Avoid importing generated outputs, large disposable datasets or vendored dependencies.
+- Prefer reproducible examples with tests and documented run instructions.
+- Retire source repositories only after migrated content has been verified here.
