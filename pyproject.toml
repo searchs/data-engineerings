@@ -1,7 +1,7 @@
 [project]
 name = "data-engineerings"
 version = "0.1.0"
-description = "Add your description here"
+description = "Canonical data-engineering labs, patterns, pipelines and case studies"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
