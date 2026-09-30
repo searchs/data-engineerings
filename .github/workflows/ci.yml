@@ -31,10 +31,11 @@ jobs:
       - name: Ruff
         run: uv run ruff check .
 
-      - name: Type checks
-        run: |
-          uv run ty check . || true
-          uv run pyrefly check . || true
+      - name: Type check with ty
+        run: uv run ty check .
+
+      - name: Type check with Pyrefly
+        run: uv run pyrefly check .
 
       - name: Tests
         run: uv run pytest
