@@ -24,6 +24,7 @@ dev = [
 [tool.uv.workspace]
 members = [
     "azure",
+    "processing/polars",
 ]
 
 [tool.commitizen]
