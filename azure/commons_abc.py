@@ -5,10 +5,9 @@ Handles schema inference and explicit schemas with configurable retry logic
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any
 import json
 import logging
-from pathlib import Path
 import time
 
 import pandas as pd
